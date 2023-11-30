@@ -1,18 +1,14 @@
-using API.Data;
-using Microsoft.EntityFrameworkCore;
+using API.Extensions;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllers();
-builder.Services.AddDbContext<DataContext>(opt =>
-{
-    opt.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
 
-// Say the use CORS Policy
-builder.Services.AddCors();
+builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddIdentityServices(builder.Configuration);8
 
 var app = builder.Build();
 
@@ -20,6 +16,9 @@ var app = builder.Build();
 
 // Configure CORS Policy 
 app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 
