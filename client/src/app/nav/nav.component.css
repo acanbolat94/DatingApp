@@ -1,0 +1,7 @@
+.dropdown-toggle,.dropdown-item{
+    cursor: pointer;
+}
+
+ul li .nav-link:hover {
+cursor: pointer;
+}
