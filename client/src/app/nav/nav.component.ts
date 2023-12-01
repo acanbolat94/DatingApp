@@ -29,10 +29,10 @@ export class NavComponent implements OnInit {
       next: (_) => {
         this.router.navigateByUrl('/members');
       },
-      error: (err) => {
-        // toastr is applied here
-        this.toastr.error(err.error);
-      },
+      // error: (err) => {
+      //   // toastr is applied here
+      //   this.toastr.error(err.error);
+      // },
     });
   }
 
