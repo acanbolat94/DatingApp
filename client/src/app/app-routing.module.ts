@@ -22,7 +22,7 @@ const routes: Routes = [
         component: MemberListComponent,
         canActivate: [authGuard],
       },
-      { path: 'members/:id', component: MemberDetailComponent },
+      { path: 'members/:username', component: MemberDetailComponent },
       { path: 'lists', component: ListsComponent },
       { path: 'messages', component: MessagesComponent },
     ],
@@ -30,7 +30,7 @@ const routes: Routes = [
   { path: 'errors', component: TestErrorComponent },
   { path: 'not-found', component: NotFoundComponent },
   { path: 'server-error', component: ServerErrorComponent },
-  
+
   // if nothing matches the app will be redirect to NotFound Component
   { path: '**', component: NotFoundComponent, pathMatch: 'full' },
 ];
