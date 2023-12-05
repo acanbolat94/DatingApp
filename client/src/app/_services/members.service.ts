@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Member } from '../_models/member';
+import { map, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,10 +10,15 @@ import { Member } from '../_models/member';
 export class MembersService {
   baseUrl = environment.apiUrl;
   constructor(private http: HttpClient) {}
+  members: Member[] = [];
 
   getMembers() {
-    return this.http.get<Member[]>(
-      this.baseUrl + 'users/'
+    if (this.members.length > 0) return of(this.members);
+    return this.http.get<Member[]>(this.baseUrl + 'users/').pipe(
+      map((members) => {
+        this.members = members;
+        return members;
+      })
     );
   }
 
@@ -24,9 +30,9 @@ export class MembersService {
   // }
 
   getMember(username: string) {
-    return this.http.get<Member>(
-      this.baseUrl + 'users/' + username
-    );
+    const member = this.members.find((x) => x.userName == username);
+    if (member) return of(member);
+    return this.http.get<Member>(this.baseUrl + 'users/' + username);
   }
 
   // getMember(username: string) {
@@ -46,4 +52,15 @@ export class MembersService {
   //     }),
   //   };
   // }
+
+  // component.ts'ten gelen form bilgileri parametre olarak updateMember metoduna geldi
+  // aşağıda yazan metotda API sunucumuza istekte bulunarak member interface'ini gönderdi.
+  updateMember(member: Member) {
+    return this.http.put(this.baseUrl + 'users', member).pipe(
+      map(() => {
+        const index = this.members.indexOf(member);
+        this.members[index] = { ...this.members[index], ...member };
+      })
+    );
+  }
 }
