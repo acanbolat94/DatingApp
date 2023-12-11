@@ -1,6 +1,10 @@
-<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-primary">
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-success">
   <div class="container">
-    <a class="navbar-brand" routerLink="/">[CN Dating]</a>
+    <a class="navbar-brand" routerLink="/">
+      <a href="">
+        <img src="assets/logo.png" class="border-0" alt="">
+      </a>
+    </a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
       aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -23,7 +27,8 @@
     </ul>
     <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
       <img src="{{user.photoUrl ||'./assets/user.png'}}" alt="User photo" class="rounded">
-      <a class="dropdown-toggle text-light text-decoration-none ms-1" dropdownToggle> Welcome {{user.knownAs | titlecase}}</a>
+      <a class="dropdown-toggle text-light text-decoration-none ms-1" dropdownToggle> Welcome {{user.knownAs |
+        titlecase}}</a>
       <div class="dropdown-menu" *dropdownMenu>
         <a class="dropdown-item" routerLink="/member/edit">Edit Profile</a>
         <a class="dropdown-item" (click)="logout()">Logout</a>
