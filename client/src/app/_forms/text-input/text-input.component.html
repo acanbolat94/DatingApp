@@ -1,16 +1,18 @@
-<div class="mb-2">
+<div class="row">
+    <div class="mb-2">
         <input type="{{type}}" [class.is-invalid]="control.touched && control.invalid" class="form-control"
             [formControl]="control" placeholder="{{placeHolder}}">
-    <div class="invalid-feedback" *ngIf="control.errors?.['required']">
-        Please enter a {{placeHolder}}.
-    </div>
-    <div class="invalid-feedback" *ngIf="control.errors?.['minlength']">
-        {{placeHolder}} must be at least {{control.errors?.['minlength'].requiredLength}} characters.
-    </div>
-    <div class=" invalid-feedback" *ngIf="control.errors?.['maxlength']">
-        {{placeHolder}} must be at least {{control.errors?.['maxlength'].requiredLength}} characters.
-    </div>
-    <div class="invalid-feedback" *ngIf="control.errors?.['notMatching']">
-        Password do not match.
+        <div class="invalid-feedback" *ngIf="control.errors?.['required']">
+            Please enter a {{placeHolder}}.
+        </div>
+        <div class="invalid-feedback" *ngIf="control.errors?.['minlength']">
+            {{placeHolder}} must be at least {{control.errors?.['minlength'].requiredLength}} characters.
+        </div>
+        <div class=" invalid-feedback" *ngIf="control.errors?.['maxlength']">
+            {{placeHolder}} must be at least {{control.errors?.['maxlength'].requiredLength}} characters.
+        </div>
+        <div class="invalid-feedback" *ngIf="control.errors?.['notMatching']">
+            Password do not match.
+        </div>
     </div>
 </div>

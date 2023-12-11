@@ -5,42 +5,47 @@
         <img src="assets/logo.png" class="border-0" alt="">
       </a>
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse"
-      aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <ul class="navbar-nav me-auto mb-2 mb-md-0">
-      <ng-container *ngIf="accountService.currentUser$ | async">
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+      <ul class="navbar-nav me-auto mb-2 mb-md-0">
+        <ng-container *ngIf="accountService.currentUser$ | async">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/members" routerLinkActive="active">Matches</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/lists" routerLinkActive="active">Lists</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/messages" routerLinkActive="active">Messages</a>
+          </li>
+          <li class="nav-item" *appHasRole="['Admin','Moderator']">
+            <a class="nav-link" routerLink="/admin" routerLinkActive="active">Admin</a>
+          </li>
+        </ng-container>
         <li class="nav-item">
-          <a class="nav-link" routerLink="/members" routerLinkActive="active">Matches</a>
+          <a class="nav-link" routerLink="/errors" routerLinkActive="active">Errors</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/lists" routerLinkActive="active">Lists</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" routerLink="/messages" routerLinkActive="active">Messages</a>
-        </li>
-      </ng-container>
-      <li class="nav-item">
-        <a class="nav-link" routerLink="/errors" routerLinkActive="active">Errors</a>
-      </li>
-    </ul>
-    <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
-      <img src="{{user.photoUrl ||'./assets/user.png'}}" alt="User photo" class="rounded">
-      <a class="dropdown-toggle text-light text-decoration-none ms-1" dropdownToggle> Welcome {{user.knownAs |
-        titlecase}}</a>
-      <div class="dropdown-menu" *dropdownMenu>
-        <a class="dropdown-item" routerLink="/member/edit">Edit Profile</a>
-        <a class="dropdown-item" (click)="logout()">Logout</a>
+      </ul>
+
+      <div class="dropdown" *ngIf="(accountService.currentUser$ | async) as user" dropdown>
+        <img src="{{user.photoUrl ||'./assets/user.png'}}" alt="User photo" class="rounded">
+        <a class="dropdown-toggle text-light text-decoration-none ms-1" dropdownToggle> Welcome {{user.knownAs |
+          titlecase}}</a>
+        <div class="dropdown-menu" *dropdownMenu>
+          <a class="dropdown-item" routerLink="/member/edit">Edit Profile</a>
+          <a class="dropdown-item" (click)="logout()">Logout</a>
+        </div>
       </div>
+      <form *ngIf="!(accountService.currentUser$ | async)" #loginForm="ngForm" class="d-flex" (ngSubmit)="login()"
+        autocomplete="off">
+        <input name="username" [(ngModel)]="model.username" class=" form-control form-control-sm me-2" type="text"
+          placeholder="Username">
+        <input name="password" [(ngModel)]="model.password" class="form-control form-control-sm me-2" type="password"
+          placeholder="Password">
+        <button class="btn btn-outline-secondary text-white" type="submit">Login</button>
+      </form>
     </div>
-    <form *ngIf="!(accountService.currentUser$ | async)" #loginForm="ngForm" class="d-flex" (ngSubmit)="login()"
-      autocomplete="off">
-      <input name="username" [(ngModel)]="model.username" class=" form-control form-control-sm me-2" type="text"
-        placeholder="Username">
-      <input name="password" [(ngModel)]="model.password" class="form-control form-control-sm me-2" type="password"
-        placeholder="Password">
-      <button class="btn btn-outline-secondary text-white" type="submit">Login</button>
-    </form>
   </div>
 </nav>
