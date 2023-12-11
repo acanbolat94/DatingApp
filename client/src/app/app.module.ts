@@ -62,11 +62,15 @@ import { DatePickerComponent } from './_forms/date-picker/date-picker.component'
       multi: true,
     },
     {
-      provide:HTTP_INTERCEPTORS, useClass:JwtInterceptor,multi:true
+      provide: HTTP_INTERCEPTORS,
+      useClass: JwtInterceptor,
+      multi: true,
     },
     {
-      provide:HTTP_INTERCEPTORS, useClass:LoadingInterceptor,multi:true
-    }
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoadingInterceptor,
+      multi: true,
+    },
   ],
   bootstrap: [AppComponent],
 })
