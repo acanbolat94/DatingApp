@@ -2,6 +2,7 @@ using API.Data;
 using API.Entities;
 using API.Extensions;
 using API.Middleware;
+using API.SignalR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -26,12 +27,23 @@ var app = builder.Build();
 app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure CORS Policy 
-app.UseCors(builder => builder.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://localhost:4200"));
+app.UseCors(
+    builder => builder
+    .AllowAnyHeader()
+    .AllowAnyMethod()
+    //added for signalR config
+    .AllowCredentials()
+    .WithOrigins("https://localhost:4200"));
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+//SignalR configuration for startup 
+//I defined a setting in the application service extensions and SignalR folder.
+app.MapHub<PresenceHub>("hubs/presence");
+app.MapHub<MessageHub>("hubs/message");
+
 
 using var scope = app.Services.CreateScope();
 var services = scope.ServiceProvider;
@@ -41,6 +53,8 @@ try
     var userManager = services.GetRequiredService<UserManager<AppUser>>();
     var roleManager = services.GetRequiredService<RoleManager<AppRole>>();
     await context.Database.MigrateAsync();
+    // context.Connections.RemoveRange(context.Connections);
+    await context.Database.ExecuteSqlRawAsync("TRUNCATE TABLE [Connection]");
     await Seed.SeedUsers(userManager, roleManager);
 }
 catch (Exception ex)

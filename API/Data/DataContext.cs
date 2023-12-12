@@ -12,6 +12,8 @@ namespace API.Data
 
         public DbSet<UserLike> UserLikes { get; set; }
         public DbSet<Message> Messages { get; set; }
+        public DbSet<Group> Groups { get; set; }
+        public DbSet<Connection> Connections { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -20,13 +22,13 @@ namespace API.Data
             modelBuilder.Entity<AppUser>()
                 .HasMany(ur => ur.UserRoles)
                 .WithOne(u => u.User)
-                .HasForeignKey(ur=> ur.UserId)
+                .HasForeignKey(ur => ur.UserId)
                 .IsRequired();
 
             modelBuilder.Entity<AppRole>()
                 .HasMany(ur => ur.UserRoles)
                 .WithOne(u => u.Role)
-                .HasForeignKey(ur=> ur.RoleId)
+                .HasForeignKey(ur => ur.RoleId)
                 .IsRequired();
 
             modelBuilder.Entity<UserLike>()
