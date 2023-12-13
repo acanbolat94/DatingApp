@@ -28,6 +28,7 @@ export class NavComponent implements OnInit {
       // if we don't need a response we can use this syntax _ ()
       next: (_) => {
         this.router.navigateByUrl('/members');
+        this.model = {};
       },
       // error: (err) => {
       //   // toastr is applied here
